@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-测试驱动开发" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/10/测试驱动开发/" class="article-date">
+  <time datetime="2017-04-10T07:17:21.000Z" itemprop="datePublished">2017-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/10/测试驱动开发/">测试驱动开发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>一个高效的软件开发过程对软件开发人员来说是至关重要的，决定着开发是痛苦的挣扎，还是不断进步的喜悦。国人对软件蓝领的不屑，对繁琐冗长的传统开发过程的不耐，使大多数开发人员无所适从。最近兴起的一些软件开发过程相关的技术，提供一些比较高效、实用的软件过程开发方法。其中比较基础、关键的一个技术就是测试驱动开发（Test-Driven Development）。虽然TDD光大于极限编程，但测试驱动开发完全可以单独应用。下面就从开发人员使用的角度进行介绍，使开发人员用最少的代价尽快理解、掌握、应用这种技术。下面分优势，原理，过程，原则，测试技术，Tips等方面进行讨论。</p>
+<h2 id="1-优势"><a href="#1-优势" class="headerlink" title="1. 优势"></a>1. 优势</h2><p>TDD的基本思路就是通过测试来推动整个开发的进行。而测试驱动开发技术并不只是单纯的测试工作。<br>需求向来就是软件开发过程中感觉最不好明确描述、易变的东西。这里说的需求不只是指用户的需求，还包括对代码的使用需求。很多开发人员最害怕的就是后期还要修改某个类或者函数的接口进行修改或者扩展，为什么会发生这样的事情就是因为这部分代码的使用需求没有很好的描述。测试驱动开发就是通过编写测试用例，先考虑代码的使用需求（包括功能、过程、接口等），而且这个描述是无二义的，可执行验证的。<br>通过编写这部分代码的测试用例，对其功能的分解、使用过程、接口都进行了设计。而且这种从使用角度对代码的设计通常更符合后期开发的需求。可测试的要求，对代码的内聚性的提高和复用都非常有益。因此测试驱动开发也是一种代码设计的过程。<br>开发人员通常对编写文档非常厌烦，但要使用、理解别人的代码时通常又希望能有文档进行指导。而测试驱动开发过程中产生的测试用例代码就是对代码的最好的解释。<br>快乐工作的基础就是对自己有信心，对自己的工作成果有信心。当前很多开发人员却经常在担心：“代码是否正确？”“辛苦编写的代码还有没有严重bug？”“修改的新代码对其他部分有没有影响？”。这种担心甚至导致某些代码应该修改却不敢修改的地步。测试驱动开发提供的测试集就可以作为你信心的来源。<br>当然测试驱动开发最重要的功能还在于保障代码的正确性，能够迅速发现、定位bug。而迅速发现、定位bug是很多开发人员的梦想。针对关键代码的测试集，以及不断完善的测试用例，为迅速发现、定位bug提供了条件。<br>我的一段功能非常复杂的代码使用TDD开发完成，真实环境应用中只发现几个bug，而且很快被定位解决。您在应用后，也一定会为那种自信的开发过程，功能不断增加、完善的感觉，迅速发现、定位bug的能力所感染，喜欢这个技术的。<br>那么是什么样的原理、方法提供上面说的这些好处哪？下面我们就看看TDD的原理。</p>
+<h2 id="2-原理"><a href="#2-原理" class="headerlink" title="2. 原理"></a>2. 原理</h2><p>测试驱动开发的基本思想就是在开发功能代码之前，先编写测试代码。也就是说在明确要开发某个功能后，首先思考如何对这个功能进行测试，并完成测试代码的编写，然后编写相关的代码满足这些测试用例。然后循环进行添加其他功能，直到完全部功能的开发。<br>我们这里把这个技术的应用领域从代码编写扩展到整个开发过程。应该对整个开发过程的各个阶段进行测试驱动，首先思考如何对这个阶段进行测试、验证、考核，并编写相关的测试文档，然后开始下一步工作，最后再验证相关的工作。下图是一个比较流行的测试模型：V测试模型。<br>【图 V测试模型】<br><img src="/images/v.jpg" alt="Alt text"><br>在开发的各个阶段，包括需求分析、概要设计、详细设计、编码过程中都应该考虑相对应的测试工作，完成相关的测试用例的设计、测试方案、测试计划的编写。这里提到的开发阶段只是举例，根据实际的开发活动进行调整。相关的测试文档也不一定是非常详细复杂的文档，或者什么形式，但应该养成测试驱动的习惯。<br>关于测试模型，还有X测试模型。这个测试模型，我认为，是对详细阶段和编码阶段进行建模，应该说更详细的描述了详细设计和编码阶段的开发行为。及针对某个功能进行对应的测试驱动开发。<br>【图 X测试模型】<br><img src="/images/x.jpg" alt="Alt text"></p>
+<h2 id="3-过程"><a href="#3-过程" class="headerlink" title="3. 过程"></a>3. 过程</h2><p>软件开发其他阶段的测试驱动开发，根据测试驱动开发的思想完成对应的测试文档即可。下面针对详细设计和编码阶段进行介绍。<br>测试驱动开发的基本过程如下：<br>1） 明确当前要完成的功能。可以记录成一个 TODO 列表。<br>2） 快速完成针对此功能的测试用例编写。<br>3） 测试代码编译不通过。<br>4） 编写对应的功能代码。<br>5） 测试通过。<br>6） 对代码进行重构，并保证测试通过。<br>7） 循环完成所有功能的开发。<br>为了保证整个测试过程比较快捷、方便，通常可以使用测试框架组织所有的测试用例。一个免费的、优秀的测试框架是 Xunit 系列，几乎所有的语言都有对应的测试框架。<br>开发过程中，通常把测试代码和功能代码分开存放，这里提供一个简单的测试框架使用例子，您可以通过它了解测试框架的使用。下面是文件列表。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">project/				项目主目录</div><div class="line">	project/test			测试项目主目录</div><div class="line">	project/test/testSeq.cpp		测试seq_t 的测试文件，对其他功能文件的测试文件复制后修改即可</div><div class="line">	project/test/testSeq.h</div><div class="line">	project/test/Makefile			测试项目的 Makefile</div><div class="line">	project/test/main.cpp			测试项目的主文件，不需要修改</div><div class="line">	project/main.cpp		           项目的主文件</div><div class="line">	project/seq_t.h			功能代码，被测试文件</div><div class="line">	project/Makefile		           项目的 Makefile</div></pre></td></tr></table></figure></p>
+<p>主要流程基本如此，但要让你的代码很容易的进行测试，全面又不繁琐的进行测试，还是有很多测试原则和技术需要考虑。</p>
+<h2 id="4-原则"><a href="#4-原则" class="headerlink" title="4. 原则"></a>4. 原则</h2><p>测试隔离。不同代码的测试应该相互隔离。对一块代码的测试只考虑此代码的测试，不要考虑其实现细节（比如它使用了其他类的边界条件）。<br>一顶帽子。开发人员开发过程中要做不同的工作，比如：编写测试代码、开发功能代码、对代码重构等。做不同的事，承担不同的角色。开发人员完成对应的工作时应该保持注意力集中在当前工作上，而不要过多的考虑其他方面的细节，保证头上只有一顶帽子。避免考虑无关细节过多，无谓地增加复杂度。<br>测试列表。需要测试的功能点很多。应该在任何阶段想添加功能需求问题时，把相关功能点加到测试列表中，然后继续手头工作。然后不断的完成对应的测试用例、功能代码、重构。一是避免疏漏，也避免干扰当前进行的工作。<br>测试驱动。这个比较核心。完成某个功能，某个类，首先编写测试代码，考虑其如何使用、如何测试。然后在对其进行设计、编码。<br>先写断言。测试代码编写时，应该首先编写对功能代码的判断用的断言语句，然后编写相应的辅助语句。<br>可测试性。功能代码设计、开发时应该具有较强的可测试性。其实遵循比较好的设计原则的代码都具备较好的测试性。比如比较高的内聚性，尽量依赖于接口等。<br>及时重构。无论是功能代码还是测试代码，对结构不合理，重复的代码等情况，在测试通过后，及时进行重构。关于重构，我会另撰文详细分析。<br>小步前进。软件开发是个复杂性非常高的工作，开发过程中要考虑很多东西，包括代码的正确性、可扩展性、性能等等，很多问题都是因为复杂性太大导致的。极限编程提出了一个非常好的思路就是小步前进。把所有的规模大、复杂性高的工作，分解成小的任务来完成。对于一个类来说，一个功能一个功能的完成，如果太困难就再分解。每个功能的完成就走测试代码－功能代码－测试－重构的循环。通过分解降低整个系统开发的复杂性。这样的效果非常明显。几个小的功能代码完成后，大的功能代码几乎是不用调试就可以通过。一个个类方法的实现，很快就看到整个类很快就完成啦。本来感觉很多特性需要增加，很快就会看到没有几个啦。你甚至会为这个速度感到震惊。（我理解，是大幅度减少调试、出错的时间产生的这种速度感）</p>
+<h2 id="5-测试技术"><a href="#5-测试技术" class="headerlink" title="5. 测试技术"></a>5. 测试技术</h2><p>5.1. 测试范围、粒度<br>对哪些功能进行测试？会不会太繁琐？什么时候可以停止测试？这些问题比较常见。按大师 Kent Benk 的话，对那些你认为应该测试的代码进行测试。就是说，要相信自己的感觉，自己的经验。那些重要的功能、核心的代码就应该重点测试。感到疲劳就应该停下来休息一下。感觉没有必要更详细的测试，就停止本轮测试。<br>测试驱动开发强调测试并不应该是负担，而应该是帮助我们减轻工作量的方法。而对于何时停止编写测试用例，也是应该根据你的经验，功能复杂、核心功能的代码就应该编写更全面、细致的测试用例，否则测试流程即可。<br>测试范围没有静态的标准，同时也应该可以随着时间改变。对于开始没有编写足够的测试的功能代码，随着bug的出现，根据bug补齐相关的测试用例即可。<br>小步前进的原则，要求我们对大的功能块测试时，应该先分拆成更小的功能块进行测试，比如一个类A使用了类B、C，就应该编写到A使用B、C功能的测试代码前，完成对B、C的测试和开发。那么是不是每个小类或者小函数都应该测试哪？我认为没有必要。你应该运用你的经验，对那些可能出问题的地方重点测试，感觉不可能出问题的地方就等它真正出问题的时候再补测试吧。<br>5.2. 怎么编写测试用例<br>测试用例的编写就用上了传统的测试技术。<br>操作过程尽量模拟正常使用的过程。<br>全面的测试用例应该尽量做到分支覆盖，核心代码尽量做到路径覆盖。<br>测试数据尽量包括：真实数据、边界数据。<br>测试语句和测试数据应该尽量简单，容易理解。<br>为了避免对其他代码过多的依赖，可以实现简单的桩函数或桩类（Mock Object）。<br>如果内部状态非常复杂或者应该判断流程而不是状态，可以通过记录日志字符串的方式进行验证。</p>
+<h2 id="6-Tips"><a href="#6-Tips" class="headerlink" title="6. Tips"></a>6. Tips</h2><p>很多朋友有疑问，“测试代码的正确性如何保障？是写测试代码还是写测试文档？”这样是不是会陷入“鸡生蛋，蛋生鸡”的循环。其实是不会的。通常测试代码通常是非常简单的，通常围绕着某个情况的正确性判断的几个语句，如果太复杂，就应该继续分解啦。而传统的开发过程通常强调测试文档。但随着开发节奏的加快，用户需求的不断变化，维护高层（需求、概要设计）的测试文档可以，更低层的测试文档的成本的确太大了。而且可实时验证功能正确性的测试代码就是对代码最好的文档。<br>软件开发过程中，除了遵守上面提到的测试驱动开发的几个原则外，一个需要注意的问题就是，谨防过度设计。编写功能代码时应该关注于完成当前功能点，通过测试，使用最简单、直接的方式来编码。过多的考虑后期的扩展，其他功能的添加，无疑增加了过多的复杂性，容易产生问题。应该等到要添加这些特性时在进行详细的测试驱动开发。到时候，有整套测试用例做基础，通过不断重构很容易添加相关特性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/10/测试驱动开发/" data-id="cj1es6bm7000bxzu2reks1xdy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hacker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/06/hacker/" class="article-date">
+  <time datetime="2017-04-06T09:11:34.000Z" itemprop="datePublished">2017-04-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/06/hacker/">hacker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="hacker"><a href="#hacker" class="headerlink" title="hacker"></a>hacker</h2><p><img src="/images/hacker.jpg" alt="Alt text"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/06/hacker/" data-id="cj1es6blz0006xzu2yaztyyhw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-C语言链表" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/24/C语言链表/" class="article-date">
+  <time datetime="2017-03-24T10:06:43.000Z" itemprop="datePublished">2017-03-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/24/C语言链表/">C语言链表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><h2 id="代码-linked-list-c"><a href="#代码-linked-list-c" class="headerlink" title="代码 linked-list.c"></a>代码 linked-list.c</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"node.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">// typedef struct _node&#123;</span></div><div class="line"><span class="comment">// 	int value;</span></div><div class="line"><span class="comment">// 	struct _node *next;</span></div><div class="line"><span class="comment">// &#125;Node;</span></div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> _list&#123; <span class="comment">// 没有做尾指针</span></div><div class="line">	Node *head;</div><div class="line">	Node *tail;</div><div class="line">&#125; List;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add2</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	List <span class="built_in">list</span>;</div><div class="line">	<span class="built_in">list</span>.head = <span class="built_in">list</span>.tail = <span class="literal">NULL</span>;</div><div class="line">	<span class="keyword">int</span> number;</div><div class="line">	<span class="keyword">do</span>&#123;</div><div class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line">		<span class="keyword">if</span>(number != <span class="number">-1</span>)&#123;</div><div class="line">			add2(&amp;<span class="built_in">list</span>,number);</div><div class="line">		&#125;</div><div class="line">	&#125;<span class="keyword">while</span>(number != <span class="number">-1</span>);</div><div class="line">	<span class="keyword">for</span> (Node *q = <span class="built_in">list</span>.head;q;q=q-&gt;next)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"%d"</span>,q-&gt;value);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>&#123;</div><div class="line">	<span class="comment">// add to linked-list</span></div><div class="line">	Node *p = (Node*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</div><div class="line">	p-&gt;value = number;</div><div class="line">	p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">	<span class="comment">// find last node</span></div><div class="line">	Node *last = <span class="built_in">list</span>-&gt;head;</div><div class="line">	<span class="keyword">if</span>(last)&#123;</div><div class="line">		<span class="keyword">while</span>(last-&gt;next)&#123;</div><div class="line">			last = last-&gt;next;</div><div class="line">		&#125;</div><div class="line">		last-&gt;next = p;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="built_in">list</span>-&gt;head = p;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add2</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>&#123;  <span class="comment">// 哎，早画图早解决了服了</span></div><div class="line">	<span class="comment">// add to linked-list</span></div><div class="line">	Node *p = (Node*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</div><div class="line">	p-&gt;value = number;</div><div class="line">	p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">	<span class="comment">// find last node</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">list</span>-&gt;tail)&#123;</div><div class="line">		(<span class="built_in">list</span>-&gt;tail)-&gt;next = p;</div><div class="line">		<span class="built_in">list</span>-&gt;tail = (<span class="built_in">list</span>-&gt;tail)-&gt;next;</div><div class="line"></div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="built_in">list</span>-&gt;head = <span class="built_in">list</span>-&gt;tail = p;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是实现了基本的创建链表功能，有两个版本第一个版本(函数add())与第二个版本(add2())相比，第二个版本是具有为指针的每一次不用从头遍历到尾节点。</p>
+<p>##删除加寻找<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"node.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">// typedef struct _node&#123;</span></div><div class="line"><span class="comment">// 	int value;</span></div><div class="line"><span class="comment">// 	struct _node *next;</span></div><div class="line"><span class="comment">// &#125;Node;</span></div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> _list&#123; <span class="comment">// 没有为检点的版本</span></div><div class="line">	Node *head;</div><div class="line">	Node *tail;</div><div class="line">&#125; List;</div><div class="line"></div><div class="line"><span class="comment">// typedef struct _list&#123;</span></div><div class="line"><span class="comment">// 	Node *head;</span></div><div class="line"><span class="comment">// 	Node *tail;</span></div><div class="line"><span class="comment">// &#125; List;</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add2</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(List *<span class="built_in">list</span>)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">queryAndDelete</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	List <span class="built_in">list</span>;</div><div class="line">	<span class="built_in">list</span>.head = <span class="built_in">list</span>.tail = <span class="literal">NULL</span>;</div><div class="line">	<span class="keyword">int</span> number;</div><div class="line">	<span class="keyword">do</span>&#123;</div><div class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line">		<span class="keyword">if</span>(number != <span class="number">-1</span>)&#123;</div><div class="line">			add2(&amp;<span class="built_in">list</span>,number);</div><div class="line">		&#125;</div><div class="line">	&#125;<span class="keyword">while</span>(number != <span class="number">-1</span>);</div><div class="line">	print(&amp;<span class="built_in">list</span>);</div><div class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;number);</div><div class="line">	queryAndDelete(&amp;<span class="built_in">list</span>,number);</div><div class="line">	print(&amp;<span class="built_in">list</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>&#123;</div><div class="line">	<span class="comment">// add to linked-list</span></div><div class="line">	Node *p = (Node*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</div><div class="line">	p-&gt;value = number;</div><div class="line">	p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">	<span class="comment">// find last node</span></div><div class="line">	Node *last = <span class="built_in">list</span>-&gt;head;</div><div class="line">	<span class="keyword">if</span>(last)&#123;</div><div class="line">		<span class="keyword">while</span>(last-&gt;next)&#123;</div><div class="line">			last = last-&gt;next;</div><div class="line">		&#125;</div><div class="line">		last-&gt;next = p;</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="built_in">list</span>-&gt;head = p;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">add2</span><span class="params">(List *<span class="built_in">list</span>, <span class="keyword">int</span> number)</span></span>&#123;  <span class="comment">// 哎，早画图早解决了服了</span></div><div class="line">	<span class="comment">// add to linked-list</span></div><div class="line">	Node *p = (Node*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</div><div class="line">	p-&gt;value = number;</div><div class="line">	p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">	<span class="comment">// find last node</span></div><div class="line">	<span class="keyword">if</span>(<span class="built_in">list</span>-&gt;tail)&#123;</div><div class="line">		(<span class="built_in">list</span>-&gt;tail)-&gt;next = p;</div><div class="line">		<span class="built_in">list</span>-&gt;tail = (<span class="built_in">list</span>-&gt;tail)-&gt;next;</div><div class="line"></div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="built_in">list</span>-&gt;head = <span class="built_in">list</span>-&gt;tail = p;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(List *<span class="built_in">list</span>)</span></span>&#123;</div><div class="line">	<span class="keyword">for</span> (Node *q = <span class="built_in">list</span>-&gt;head;q;q=q-&gt;next)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"%d\t"</span>,q-&gt;value);</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">queryAndDelete</span><span class="params">(List *<span class="built_in">list</span>,<span class="keyword">int</span> number)</span></span>&#123;</div><div class="line">	<span class="keyword">int</span> isFound = <span class="number">0</span>;</div><div class="line">	Node *p = <span class="literal">NULL</span>;</div><div class="line">	<span class="keyword">for</span> ( Node *q = <span class="built_in">list</span>-&gt;head;q;p = q,q=q-&gt;next)&#123;</div><div class="line">		<span class="keyword">if</span>(q-&gt;value == number)&#123;</div><div class="line">			isFound = <span class="number">1</span>;</div><div class="line">			<span class="keyword">if</span>(q)&#123;</div><div class="line">				p-&gt;next = q-&gt;next;</div><div class="line">			&#125;<span class="keyword">else</span>&#123;</div><div class="line">				(<span class="built_in">list</span>-&gt;head)-&gt;next = q-&gt;next;</div><div class="line">			&#125;</div><div class="line">			<span class="built_in">free</span>(q);</div><div class="line">			<span class="keyword">break</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(isFound)&#123;</div><div class="line">		<span class="built_in">printf</span>(<span class="string">"找到了\n"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/24/C语言链表/" data-id="cj1es6blr0002xzu2hrj1b5lu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-构造之法第5章" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/20/构造之法第5章/" class="article-date">
+  <time datetime="2017-03-20T04:58:41.000Z" itemprop="datePublished">2017-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/20/构造之法第5章/">构造之法第5章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第5章团队和流程概述"><a href="#第5章团队和流程概述" class="headerlink" title="第5章团队和流程概述"></a>第5章团队和流程概述</h2><ul>
+<li><strong>理论和知识点</strong></li>
+<li><strong>典型的软件团队模式和开发流程都有哪些？各有什么优缺点</strong></li>
+<li><strong>MVP,MBP,RUP</strong></li>
+<li><strong>练习与讨论</strong></li>
+<li><strong>团队模式和开发效率的关系</strong><br>讲了什么是非团队，和一些软件团队的模式：<h2 id="主治医师模式"><a href="#主治医师模式" class="headerlink" title="主治医师模式"></a>主治医师模式</h2>选取一个首席程序员，负责处理主要模型的设计和编码，其他人员负责配合和支持他／她。<br>但是这种模式往往会从这一模式退化为“一个学生干活，其余学生跟着打酱油”。<h2 id="明星模式"><a href="#明星模式" class="headerlink" title="明星模式"></a>明星模式</h2>主治医师模式运用到极点，可以蜕化为明星模式，在这里，明星光环盖过了团队其他人的总和，但是这个明星万一哪天陨落了，这个团队是否可以正常运行。<h2 id="社区模式"><a href="#社区模式" class="headerlink" title="社区模式"></a>社区模式</h2>社区由很多志愿者参与，每个人参与自己感兴趣的项目，贡献力量，大部分人不拿报酬，发挥大众的力量但是，同时代码质量也要进行严格的控制。<h2 id="业余剧团模式"><a href="#业余剧团模式" class="headerlink" title="业余剧团模式"></a>业余剧团模式</h2>这样的团队在每一个项目中，不同的人会挑选不同的角色。在下一个项目中这些人也许也会换一个完全不同的角色类型。各人在团队中听从一个中央指挥的指挥和安排。<h2 id="神秘团队"><a href="#神秘团队" class="headerlink" title="神秘团队"></a>神秘团队</h2>一些软件项目在秘密状态下进行，别人不知道他们具体在做什么。这种模式好处是：团队内部有极大的自由，没有外界的干扰，团队成员有极大的投入。<h2 id="特工团队"><a href="#特工团队" class="headerlink" title="特工团队"></a>特工团队</h2>软件行业的一些团队由一些有特殊技能的专业人士组成，负责一些棘手的而有紧迫的问题。例如一些专门做网站安全性服务团队。<h2 id="交响乐团模式"><a href="#交响乐团模式" class="headerlink" title="交响乐团模式"></a>交响乐团模式</h2>特点如下：</li>
+<li><strong>工具齐全</strong></li>
+<li><strong>各司其职</strong></li>
+<li><strong>有统一的指挥</strong></li>
+<li><strong>具有多个项目的的开发经验</strong><h2 id="爵士乐模式"><a href="#爵士乐模式" class="headerlink" title="爵士乐模式"></a>爵士乐模式</h2>特点如下：</li>
+<li><strong>工作比较随意</strong></li>
+<li><strong>主要的程序员没有现场指挥</strong></li>
+<li><strong>架构师搭建架构之后，程序员自由发挥</strong></li>
+<li><strong>人数较少</strong><br>强调个性化的表达，强有力的互动，对变化的内容有创意的回应。<h2 id="功能团队模式"><a href="#功能团队模式" class="headerlink" title="功能团队模式"></a>功能团队模式</h2>具备不同能力的同事平等协作，共同完成一个功能。他们之间没有管理和被管理的关系。<h2 id="官僚模式"><a href="#官僚模式" class="headerlink" title="官僚模式"></a>官僚模式</h2><img src="/images/guanliao.png" alt="Alt text"><br>层层管理的官僚模式<br>这种模式在软件开发中会出问题。因为成员之间不光有技术方面的合作和领导，同时还混进了组织上的领导和被领导关系。跨组织的合作变得比较困难，因为各自头顶上都有不同的老板。这种模式如果应用不好，最后会变成“老板驱动”的开发流程。<h2 id="开发流程"><a href="#开发流程" class="headerlink" title="开发流程"></a>开发流程</h2>我们在开发、运营、维护软件的过程中有很多技术、做法、习惯和思想。软件工程把这些相关的技术和过程统一到一个体系中，叫“软件开发流程”，软件开发流程的目的是为了提高软件开发、运营和维护的效率，以及提升用户满意度、软件的可靠性和可维护性。<h2 id="写了在改模式"><a href="#写了在改模式" class="headerlink" title="写了在改模式"></a>写了在改模式</h2><img src="/images/xieafterupdate.png" alt="Alt text"><br>这个流程也有好处，不需要太多其他准备或相关知识，大家上来就写代码，也许就能写出来，写不出来就改，也许能改好。当面临下面的任务时，也许这个方法是有用的。 “只用一次”的程序 “看过了就扔”的原型 一些不实用的演示程序 但是，要写一个有实际用户、解决实际需求的软件，这个方法的缺点就太但是，要写一个有实际用户、解决实际需求的软件，这个方法的缺点就太大了。要注意的是，许多学校里的软件工程作业的要求符合上面那三点，所以难怪同学们觉得没有必要用其他的开发方法，“写了再改”足矣！<h2 id="瀑布模型"><a href="#瀑布模型" class="headerlink" title="瀑布模型"></a>瀑布模型</h2>当软件行业还在年幼的时期，它从别的成熟行业（硬件设计，建筑工程）借用了不少经验和模型。在那些“硬”的行业中，产品大多遵循 [分析→设计→实现（制造）→销售→维护] 这个流程。由于在“硬”行业中产品一旦大规模生产，要再返回去修改时就非常困难，甚至是不可能的。因此这个模型描述了单向的<br><img src="/images/waterfall.png" alt="Alt text"><br>温斯顿正确地指出了在设计大型系统时，要做相邻步骤的回溯，解决上一阶段未能解决的问题:又如, 温斯顿指出,要让产品成功,最好把这个模型走两遍,先有一个模拟版本(Simulation of FinalProduct),在此基础上收集反馈,改进各个步骤,并交付一个最终的版本:<br><img src="/images/shouji.png" alt="Alt text"></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/20/构造之法第5章/" data-id="cj1es6bm6000axzu2jrdtqfd5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-构造之法第2章" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/20/构造之法第2章/" class="article-date">
+  <time datetime="2017-03-20T04:02:21.000Z" itemprop="datePublished">2017-03-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/20/构造之法第2章/">构造之法第2章</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第2章概论"><a href="#第2章概论" class="headerlink" title="第2章概论"></a>第2章概论</h2><p>这一章是讲自身技术的，首先讲到了单元测试，书中说：最好是在设计的时候就写好评单元测试，这样单元测试就能体现API的语义。还提到效能分析工具，从时间复杂度和空间复杂度来判定效能。提到了个人的开发流程，从在校大学生和硕士毕业后工作三年后的个人工作流程进行对比发现后者花在编码阶段的时间大大减少和花在需求分析和软件测试阶段的时间增加了，并且这两者占到了整个开发流程的60%。最后是实践还有更加详细的讲到了回归测试，回归简单的来说就是已经做好的模块，并且单元测试做的也没有问题，结果引入新的模块后出现了老得的模块的问题叫做回归。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我作为在校大三的学生，也是会遇到过类似的问题。老师让做一个课程设计，用java写一个ATM，我当时觉得自己java学的不错（在我们班而言）就迫不及待的就直接编码了。当时什么架构也都不知道，也没有学软件工程，也不清楚个人的开发流程是什么，直接上来就编码。作了可能有一半了发现发现自己写的程序不符合面向对象的要求，也不符合MVC架构的准则。就重新写了一遍，写完之后发现，代码清清爽爽。这也算自己或者大多数，学编程初期的人都会遇到的一个问题吧。现在如果说做一个软件，我估计会强忍着，一上来就去写代码的冲动好好的把需求分析一下，数据库设计一下，功能梳理一下。说实话，第2章是关于测试的，本身来说对测试兴趣不是很高，所以，只是粗略的看了一下，但并不是测试不重要，只是个人感觉兴趣不大。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/20/构造之法第2章/" data-id="cj1es6bm60009xzu2f2gfr106" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-读构建之法体会" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/19/读构建之法体会/" class="article-date">
+  <time datetime="2017-03-19T08:22:18.000Z" itemprop="datePublished">2017-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/19/读构建之法体会/">读构建之法体会</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="构建之法简介"><a href="#构建之法简介" class="headerlink" title="构建之法简介"></a>构建之法简介</h2><p>  软件工程牵涉的范围很广, 同时也是一般院校的同学反映比较空洞乏味的课程。 但是 软件工程的技术对于投身IT 产业的学生来说是非常重要的。作者邹欣有长达20年的一线软件开发经验，他利用业余时间在数所高校进行了长达6年的软件工程教学实践，总结出了在16周的时间内让 同学们通过 “做中学 (Learning By Doing)” 掌握实用的软件工程技术的教学计划，并得到高校师生的积极反馈。在此基础上，作者对软件工程的各个知识点和技能要求进行了系统性整理，形成教材。<br>  我将逐章的概述内容及我读完之后的感受</p>
+<h2 id="第1章概论"><a href="#第1章概论" class="headerlink" title="第1章概论"></a>第1章概论</h2><p>首先一上来提到了一个公式：软件=程序+软件工程<br>之后提出了三个问题或者叫做三个现象吧。之后讲了一个例子：从一个出30道加减法的题扩展到一个具有各种功能而且庞大的web应用。在这个例子中就会设计一些算法和数据结构，我想应该没有人会写这样的库给开发者用，所以需要自己去写一些算法和数据结构。后面引出了，程序的运行环境、源代码管理、软件的质量保证的过程是软件测试、绣球分析、软件维护、软件的生命周期和用户体验等概念。上述皆为软件开发活动行管的内容。<br>之后提到了软件团队赚钱的方式。再从广义上的软件工程也包括用户体验、用户界面等。从而推出一个公式：软件＝程序＋软件工程。又从中扩展到软件企业＝软件＋商业模式。<br>用折纸飞机的玩具阶段、用氢气球飞上天的业余爱好阶段、莱特兄弟制造飞机的探索阶段、现在的航空业的成熟的产业阶段类比软件开发的不同阶段：<br><img src="/images/soft classify.png" alt="Alt text"><br>软件工程是把系统的、有序的、可量化的放大应用到软件的开发、运营和维护上的过程。介绍了软件工程包含了哪些领域以及与软件工程相关的一些领域。简单介绍了一下软件开发流程和一些工具。<br>软件的特殊性共总结了五点内容：</p>
+<ul>
+<li><strong>复杂性</strong></li>
+<li><strong>不可见性</strong></li>
+<li><strong>易变性</strong></li>
+<li><strong>服从性</strong></li>
+<li><strong>非连续性</strong><br>之后对软件工程和计算机科学之间的关系、侧重点和领域等做出比较。<br>最后谈了谈bug的来历。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在我看来就是造轮子和用轮子，作为java程序员想快速做出一个网站，不算是难事，即便用上SSM(Spring MVC,Spring,Mybatis)再加上基于RESTFul API的Swagger实现前后端分离的契约。还是加上缓存redis等技术对于数据结构和算法运用的不是很多基本上都是围绕着对数据库的增、删、改、查，这几个操作。肯定会有这个阶段，我们只需要会用轮子，还需要关注轮子是怎么造的嘛？在我看来数据结构和算法是一个编程员的基本功。所以基本功往往不是一时半会可以出效果的，如果不在乎这些基本功，也许一年两年在工作中不会体现，不过在这个领域呆的时间越久我确信，没有这些基本功作为保证，以后会遇见各种各样的瓶颈。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/19/读构建之法体会/" data-id="cj1es6bm9000cxzu2cke0zxr8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-文章测试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/19/文章测试/" class="article-date">
+  <time datetime="2017-03-19T06:14:37.000Z" itemprop="datePublished">2017-03-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/19/文章测试/">Markdown简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><blockquote>
+<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基百科</a></p>
+</blockquote>
+<p>正如您在阅读的这份文档，它使用简单的符号标识不同的标题，将某些文字标记为<strong>粗体</strong>或者<em>斜体</em>，创建一个<a href="http://www.example.com" target="_blank" rel="external">链接</a>或一个脚注[^demo]。下面列举了几个高级功能，更多语法请按<code>Cmd + /</code>查看帮助。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/19/文章测试/" data-id="cj1es6bm40008xzu27vmxyxy7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/17/hello-world/" class="article-date">
+  <time datetime="2017-03-17T13:18:15.000Z" itemprop="datePublished">2017-03-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/17/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/03/17/hello-world/" data-id="cj1es6blx0004xzu241jb69zu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/04/10/测试驱动开发/">测试驱动开发</a>
+          </li>
+        
+          <li>
+            <a href="/2017/04/06/hacker/">hacker</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/24/C语言链表/">C语言链表</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/20/构造之法第5章/">构造之法第5章</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/20/构造之法第2章/">构造之法第2章</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
