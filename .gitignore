@@ -1,4 +1,6 @@
 /.deploy_git
-public  
 /_config.yml
- 
+node_modules 
+/scaffolds
+/source
+/themes
