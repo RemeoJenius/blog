@@ -250,6 +250,160 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/python/inherit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jenius">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jenius.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jeniusLi's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/21/python/inherit/" itemprop="url">
+                  python的多继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-21T16:35:44+08:00">
+                2017-04-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="二义性"><a href="#二义性" class="headerlink" title="二义性"></a>二义性</h1><p>python支持多继承，多继承的语言往往会遇到以下两类二义性的问题：<br>有两个基类A和B，A和B都定义了方法f()，C继承A和B，那么调用C的f()方法时会出现不确定。<br>有一个基类A，定义了方法f()，B类和C类继承了A类（的f()方法），D类继承了B和C类，那么出现一个问题，D不知道应该继承B的f()方法还是C的f()方法。<br>C++也是支持多继承的语言之一<br>对于问题1，C++中通过同名覆盖的方式来解决，子类方法和属性会优先调用，如果要在子类中访问被屏蔽的基类成员，应使用基类名来限定（BaseClassName::Func()）。<br>对于问题2，C++中通过虚继承来解决，以virtual关键字修饰共同的直接基类，从而保证不会产生多个基类副本产生歧义。</p>
+<h2 id="Python中多继承与super-用法"><a href="#Python中多继承与super-用法" class="headerlink" title="Python中多继承与super()用法"></a>Python中多继承与super()用法</h2><p>Python类分为两种，一种叫经典类，一种叫新式类。两种都支持多继承。</p>
+<p>考虑一种情形，B继承于A，C继承于A和B, 但C需要调用父类的init()函数时，前者会导致父类A的init()函数被调用2次，这是不希望看到的。而且子类要显式地指定父类，不符合DRY原则。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 经典类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">()</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'A'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        A.__init__(self)</div><div class="line">        <span class="keyword">print</span> <span class="string">'B'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(B, A)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        A.__init__(self)</div><div class="line">        B.__init__(self)</div><div class="line">        <span class="keyword">print</span> <span class="string">'C'</span></div></pre></td></tr></table></figure></p>
+<p>采用新式类，要求最顶层的父类一定要继承于object，这样就可以利用super()函数来调用父类的init()等函数，每个父类都执行且执行一次，并不会出现重复调用的情况。而且在子类的实现中，不用到处写出所有的父类名字，符合DRY原则。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 新式类</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'A'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        super(B, self).__init__()</div><div class="line">        <span class="keyword">print</span> <span class="string">'B'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(B, A)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        super(C, self).__init__()</div><div class="line">        <span class="keyword">print</span> <span class="string">'C'</span></div></pre></td></tr></table></figure></p>
+<p>采用super()方式时，会自动找到第一个多继承中的第一个父类，但是如果还想强制调用其他父类的init()函数或两个父类的同名函数时，就要用老办法了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#coding=utf-8</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">	name = <span class="string">'A'</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">		<span class="keyword">print</span> <span class="string">'This is a A‘s construct'</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">	name = <span class="string">'B'</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">		super(B,self).__init__()</div><div class="line">		<span class="keyword">print</span> <span class="string">'This is a B‘s construct'</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A,B)</span>:</span></div><div class="line">	name = <span class="string">'C'</span></div><div class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">		super(C, self).__init__()</div><div class="line">		<span class="comment"># B.__init__(self)</span></div><div class="line">		<span class="keyword">print</span> <span class="string">'This is a C‘s construct'</span></div><div class="line"></div><div class="line">c = C()</div></pre></td></tr></table></figure></p>
+<p>结果:<br><img src="/images/result.jpeg" alt="Alt text"><br>仔细看了一下代码，自从python2.2之后引入了super，这个一方面是解决上面的一个问题，就是以后改父类的的名字，只要改一个地方就可以了，另一方面为了避免重复调用同一个类的构造方法，这个也可以理解，构造函数本来就是为了给属性初始化的，初始化当然做一次也就够了的。仔细看一下代码调用super ，如果是多继承会调用第一个父类的方法，上面从代码上看如果编译通过了，将会调用两次A的构造。现在来说就出现编译错误了。<br>python中通过C3算法很好的避免了以上两类二义性的情况。</p>
+<h2 id="深度优先算法（DFS，Depth-First-Search）"><a href="#深度优先算法（DFS，Depth-First-Search）" class="headerlink" title="深度优先算法（DFS，Depth-First-Search）"></a>深度优先算法（DFS，Depth-First-Search）</h2><p>把根节点压入栈中。<br>每次从栈中弹出一个元素，搜索所有在它下一级的元素，把这些元素压入栈中。并把这个元素记为它下一级元素的前驱。<br>找到所要找的元素时结束程序。<br>如果遍历整个树还没有找到，结束程序。</p>
+<h2 id="广度优先算法（BFS，Breadth-First-Search）"><a href="#广度优先算法（BFS，Breadth-First-Search）" class="headerlink" title="广度优先算法（BFS，Breadth-First-Search）"></a>广度优先算法（BFS，Breadth-First-Search）</h2><p>把根节点放到队列的末尾。<br>每次从队列的头部取出一个元素，查看这个元素所有的下一级元素，把它们放到队列的末尾。并把这个元素记为它下一级元素的前驱。<br>找到所要找的元素时结束程序。<br>如果遍历整个树还没有找到，结束程序。</p>
+<h2 id="拓扑排序："><a href="#拓扑排序：" class="headerlink" title="拓扑排序："></a>拓扑排序：</h2><p>对一个有向无环图(Directed Acyclic Graph简称DAG)G进行拓扑排序，是将G中所有顶点排成一个线性序列，使得图中任意一对顶点u和v，若边(u,v)∈E(G)，则u在线性序列中出现在v之前。通常，这样的线性序列称为满足拓扑排序(TopologicalOrder)的序列，简称拓扑序列。<br>拓扑排序的实现步骤：<br>循环执行以下两步，直到不存在入度为0的顶点为止<br>选择一个入度为0的顶点并输出之；<br>从网中删除此顶点及所有出边。</p>
+<h2 id="python中调用父类方法的两种方式："><a href="#python中调用父类方法的两种方式：" class="headerlink" title="python中调用父类方法的两种方式："></a>python中调用父类方法的两种方式：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       self.name = <span class="string">"A: name"</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"A:__init__"</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"A:fun"</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"B:__init__"</span></div><div class="line">       A.__init__(self)                <span class="comment"># 使用类名直接调用</span></div><div class="line">       super(B, self).__init__()       <span class="comment"># 使用super关键字调用</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"B:fun"</span></div><div class="line">       A.fun(self)</div><div class="line">       super(B, self).fun()</div><div class="line">       <span class="keyword">print</span> self.name</div></pre></td></tr></table></figure>
+<p>对于单继承来说，上面这两种方式并无本质上的区别，但是当出现多继承的时候，super得到的基类就不一定是我们“认为”的基类了，我们看下面这个例子：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"enter A"</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"leave A"</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(object)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"enter B"</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"leave B"</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(A)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"enter C"</span></div><div class="line">       super(C, self).__init__()</div><div class="line">       <span class="keyword">print</span> <span class="string">"leave C"</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span><span class="params">(A)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"enter D"</span></div><div class="line">       super(D, self).__init__()</div><div class="line">       <span class="keyword">print</span> <span class="string">"leave D"</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">E</span><span class="params">(B, C)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"enter E"</span></div><div class="line">       B.__init__(self)</div><div class="line">       C.__init__(self)</div><div class="line">       <span class="keyword">print</span> <span class="string">"leave E"</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">F</span><span class="params">(E, D)</span>:</span></div><div class="line">   <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">       <span class="keyword">print</span> <span class="string">"enter F"</span></div><div class="line">       E.__init__(self)</div><div class="line">       D.__init__(self)</div><div class="line">       <span class="keyword">print</span> <span class="string">"leave F"</span></div><div class="line"></div><div class="line">f = F()</div></pre></td></tr></table></figure></p>
+<p>输出结果：<br>enter F<br>enter E<br>enter B<br>leave B<br>enter C<br>enter D<br>enter A<br>leave A<br>leave D<br>leave C<br>leave E<br>enter D<br>enter A<br>leave A<br>leave D<br>leave F<br>类的继承关系如下所示：<br>   object<br>  |       \<br>  |        A<br>  |      / |<br>  B       C  D<br>   \   /   |<br>     E     |<br>       \   |<br>         F<br>我们的本意是希望调用构造函数的时候，对于基类的构造方法也进行调用，但是实际结果发现，A和D的构造函数被调用了2次，而且奇怪的是，当调用super(C, self).<strong>init</strong>()的时候，竟然进入D的构造函数，这也是为什么D的构造函数被调用了两次（一次是F调用的，一次是C调用的）！从继承关系上看，C的基类应该是A才对。这就要引出下面要解释的，python中的C3方法。不过针对上面这个例子，修改的思路很简单，要么全部使用类名来调用基类方法，要么全部使用super()来调用，不要混用！</p>
+<h2 id="C3算法的演变历史："><a href="#C3算法的演变历史：" class="headerlink" title="C3算法的演变历史："></a>C3算法的演变历史：</h2><h3 id="经典类（python-2-2之前）："><a href="#经典类（python-2-2之前）：" class="headerlink" title="经典类（python 2.2之前）："></a>经典类（python 2.2之前）：</h3><p>在python 2.2之前，python中使用经典类（classicclass），经典类是一种没有继承的类，所有类型都是type类型，如果经典类作为父类，子类调用父类构造函数会报错。当时用作MRO的算法是DFS（深度优先），下面的例子是当时使用DFS算法的示例（向右是基类方向）：<br>正常的继承方式：<br>A-&gt;B-&gt;D<br>A-&gt;C-&gt;E<br>DFS的遍历顺序为：A-&gt;B-&gt;D-&gt;C-&gt;E<br>这种情况下，不会产生问题。<br>菱形的继承方式<br>A-&gt;B-&gt;D<br>A-&gt;C-&gt;D<br>DFS的遍历顺序为：A-&gt;B-&gt;D-&gt;C<br>对于这种情况，如果公共父类D中也定义了f()，C中重写了方法f()，那么C中的f()方法永远也访问不到，因为按照遍历的顺序始终先发现D中的f()方法，导致子类无法重写基类方法。</p>
+<h3 id="新式类（python2-2）："><a href="#新式类（python2-2）：" class="headerlink" title="新式类（python2.2）："></a>新式类（python2.2）：</h3><p>在python2.2开始，为了使类的内置类型更加统一，引入了新式类（new-style class），新式类每个类都继承自一个基类，默认继承自object，子类可以调用基类的构造函数。由于所有类都有一个公共的祖先类object，所以新式类不能使用DFS作为MRO。在当时有两种MRO并存：<br>如果是经典类，MRO使用DFS<br>如果是新式类，MRO使用BFS<br>针对新式类的BFS示例如下（向右是基类方向）：<br>正常继承方式：<br>A-&gt;B-&gt;D<br>A-&gt;C-&gt;E<br>BFS的遍历顺序为：A-&gt;B-&gt;C-&gt;D-&gt;E<br>D是B的唯一基类，但是遍历时却先遍历节点C，这种情况下应该先从唯一基类进行查找，这个原则称为单调性。<br>菱形的继承方式<br>A-&gt;B-&gt;D<br>A-&gt;C-&gt;D<br>BFS的遍历顺序为：A-&gt;B-&gt;C-&gt;D<br>BFS解决了前面提到的子类无法重写基类方法的问题。</p>
+<h3 id="经典类和新式类并存（python2-3-python2-7），C3算法产生："><a href="#经典类和新式类并存（python2-3-python2-7），C3算法产生：" class="headerlink" title="经典类和新式类并存（python2.3-python2.7），C3算法产生："></a>经典类和新式类并存（python2.3-python2.7），C3算法产生：</h3><p>由于DFS和BFS针对经典类和新式类都有缺陷，从python2.3开始，引入了C3算法。针对前面两个例子，C3算法的遍历顺序如下：<br>正常继承方式：<br>A-&gt;B-&gt;D<br>A-&gt;C-&gt;E<br>C3的遍历顺序为：A-&gt;B-&gt;D-&gt;C-&gt;E<br>菱形的继承方式<br>A-&gt;B-&gt;D<br>A-&gt;C-&gt;D<br>C3的遍历顺序为：A-&gt;B-&gt;C-&gt;D<br>看起来是DFS和BFS的综合，但是并非如此，下面的例子说明了C3算法的具体实现：<br>从前面拓扑排序的定义可知，将有向无环图进行拓扑排序后，按照得到的拓扑序列遍历即可满足单调性，原因是由根到叶即是子类到基类的方向，当基类的入度为0是，它就是子类的唯一基类，此时会优先遍历此基类，符合单调性。而子类无法重写方法的问题也可以得到解决，因为当多个子类继承自同一个基类时，该基类的入度不会先于子类减为0，所以可以保证优先遍历入度减为0的子类。<br>结合下面这张图的例子来说明C3算法的执行步骤（图中箭头由子类指向父类）：<br><img src="/images/object.jpeg" alt="Alt text"><br>首先找入度为0的点，只有A，把A取出，把A相关的边去掉，再找下一个入度为0的点，B和C满足条件，从左侧开始取，取出B，这时顺序是AB，然后去掉B相关的边，这时候入度为0的点有E和C，依然取左边的E，这时候顺序为ABE，接着去掉E相关的边，这时只有一个点入度为0，那就是C，取C，顺序为ABEC。去掉C的边得到两个入度为0的点D和F，取出D，顺序为ABECD，然后去掉D相关的边，那么下一个入度为0的就是F，然后是object。所以最后的排序就为ABECDFobject。<br>了解了C3算法，我们前面那个混用的例子中调用super(C,self).<strong>init</strong>()会去调用D构造函数的原因也就显而易见了。<br>在python中提供了<strong>mro</strong>内置属性来查看类的MRO，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span><span class="params">(object)</span>:</span></div><div class="line">   <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">E</span><span class="params">(object)</span>:</span></div><div class="line">   <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">F</span><span class="params">(object)</span>:</span></div><div class="line">   <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(D, F)</span>:</span></div><div class="line">   <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(E, D)</span>:</span></div><div class="line">   <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(B, C)</span>:</span></div><div class="line">   <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> A.__mro__</div><div class="line"></div><div class="line"><span class="comment">#输出：(&lt;class '__main__.A'&gt;, &lt;class '__main__.B'&gt;, &lt;class '__main__.E'&gt;, &lt;class '__main__.C'&gt;, &lt;class '__main__.D'&gt;, &lt;class '__main__.F'&gt;, &lt;type 'object'&gt;)</span></div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/10/测试驱动开发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1274,12 +1428,19 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
           
 
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
           
 
           
