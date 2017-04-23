@@ -250,6 +250,154 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/23/C++/inherit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jenius">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jenius.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jeniusLi's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/23/C++/inherit/" itemprop="url">
+                  C++继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-23T13:35:44+08:00">
+                2017-04-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="name-hiding"><a href="#name-hiding" class="headerlink" title="name hiding"></a>name hiding</h1><p>先看一下例子<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">private</span> :</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		 A():i(<span class="number">10</span>)&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"A::A()"</span>&lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getI</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="keyword">this</span>-&gt;i;&#125;</div><div class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getI</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;<span class="keyword">return</span> i;&#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">class</span> B:<span class="keyword">public</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getI</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="number">20</span>;&#125;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	B b;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;b.getI()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结果输出：<br>A::A()<br>20<br>这个理解上没有什么问题，这个所有的OOP的语言都有，这个叫做override，函数的重写或者叫函数的复写。<br>接下来再看一个例子<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">private</span> :</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		 A():i(<span class="number">10</span>)&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"A::A()"</span>&lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getI</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="keyword">this</span>-&gt;i;&#125;</div><div class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getI</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;<span class="keyword">return</span> i;&#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">class</span> B:<span class="keyword">public</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		<span class="function"><span class="keyword">int</span> <span class="title">getI</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="number">20</span>;&#125;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	B b;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;b.getI()&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;b.getI(<span class="number">1</span>)&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>报错：<br><img src="/images/namehiding.png" alt="Alt text"><br>意思大概是说，函数中的参数过多，应该是0个，但是现在有一个参数，你可能想调用的是那个无参数的函数<br>相当于类B中没有带一个参数的getI函数。不是说B类继承A类，之后就是把所有的A类当中，不管是private的还是public的都继承过来了嘛，为什么A类有带一个参数getI但是对B类的对象调用会报错。这个是因为C++所特有的，除了C++其他的OOP语言都不是这么干的，这叫name hiding。对于C++来说，如果父类当中有overload的函数，在子类当中你出现和父类相同的函数（名字，参数列表都一样）那么子类当中就只有那一个函数了，父类的那些就都被隐藏掉了。这是因为在C++，B类中的getI函数和A类中的getI函数是没有任何关系的，其他的OOP语言会构成一种关系，叫override</p>
+<h1 id="Function-overloading"><a href="#Function-overloading" class="headerlink" title="Function overloading"></a>Function overloading</h1><p>overload 是指的我的一些函数可以有相同的函数名，然后他们有不同的参数列表（这个是参数列表的个数和类型会不一样）。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">private</span> :</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		A():i(<span class="number">0</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;<span class="built_in">cout</span>&lt;&lt; i &lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">long</span> i)</span></span>&#123;<span class="built_in">cout</span>&lt;&lt; i &lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span> i)</span></span>&#123;<span class="built_in">cout</span>&lt;&lt; i &lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	A a;</div><div class="line">	a.print();</div><div class="line">	a.print(<span class="number">155L</span>);</div><div class="line">	a.print(<span class="number">15</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个就是overload（重载）<br>当然，如果一个函数的名称相同，参数表相同而返回值类型不同，构不构成overload呢？<br>这个显然不行的，因为这样编译器无从分辨，你到底要调用哪个函数。<br>有的人会说我可以这样<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> a = f();</div><div class="line"><span class="keyword">double</span> a = f();</div></pre></td></tr></table></figure></p>
+<p>通过返回值要交给哪个类型的变量来让编译器来判断，我要调那个函数。<br>但是问题在于你还可以这样写<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">f();</div></pre></td></tr></table></figure></p>
+<p>这样写编译器就不会知道。</p>
+<h1 id="default-value"><a href="#default-value" class="headerlink" title="default value"></a>default value</h1><p>很多编程语言都支持default value<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">private</span> :</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		A():i(<span class="number">0</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span> i=<span class="number">10</span>)</span></span>&#123;<span class="built_in">cout</span>&lt;&lt; i &lt;&lt;<span class="built_in">endl</span>;&#125;</div><div class="line"></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</div><div class="line">	A a;</div><div class="line">	a.print();</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>不过在这里的忠告是，尽量不用default value ，当然用default value在一些情况下你可以少打一些字。<br>但是对软件工程来说，一般情况下凡事让你少打字的情况都是不好的。因为default value会造成你阅读上的困难。<br>当你看到我在调用print的函数的时候你会以为他只是一个没有参数的函数，但是你找不到。而且default value很不安全，它不一定是设计者的意图。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/21/python/inherit/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1431,7 +1579,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1440,7 +1588,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
