@@ -250,6 +250,166 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/25/C++/C++内联函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jenius">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jenius.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jeniusLi's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/04/25/C++/C++内联函数/" itemprop="url">
+                  C++内联函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-25T12:47:36+08:00">
+                2017-04-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Overhead-for-a-function-call"><a href="#Overhead-for-a-function-call" class="headerlink" title="Overhead for a function call"></a>Overhead for a function call</h1><ul>
+<li><p><strong>the processing time required by a device prior to the execution of a command</strong>:</p>
+<ul>
+<li><p><strong>Push parameters</strong>: 将函数的参数推到栈里面去</p>
+</li>
+<li><p><strong>Push return address</strong>:把返回地址推到栈里面去</p>
+</li>
+<li><strong>Prepare return values</strong>:准备返回的值</li>
+<li><strong>Pop all pushed</strong>:把所有推进栈里面的东西都赶出来<h1 id="inline-Function"><a href="#inline-Function" class="headerlink" title="inline Function"></a>inline Function</h1>上述这么多额外的事情，可以用一个手段来避免产生这些额外的开销<br>C++给我们提供了一种方式，就是内联函数。内联函数我们在调用它的时候，并不是会产生那些动作（push,pop,return,call），<br>而是把那个函数的代码嵌入到那个地方去，但是仍然保持函数的独立性（函数独有的空间，对参数类型的检查等）。<br>当然，如果你的函数是inline的，这个函数就不会出现在最终的可执行代码里面。它只会出现在编译器里面。<br>如果你想写函数是inline的话，在.h和.cpp必须都要在函数前面写上inline。实际上.h和.cpp是写给不同人看的，<br>.cpp是用来产生那个函数的，.h是用来给调用这个函数的地方看的。.cpp里面有没有inline是让编译器生成不生成这个函数的，有inline就不生成这个函数。头文件里面的inline是告诉，这个地方你不能生成调用它的那个代码，要把函数体拆进来。<h2 id="代码-main-cpp"><a href="#代码-main-cpp" class="headerlink" title="代码 main.cpp"></a>代码 main.cpp</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"a.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	f(<span class="number">10</span>,<span class="number">10</span>);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="代码-a-cpp"><a href="#代码-a-cpp" class="headerlink" title="代码 a.cpp"></a>代码 a.cpp</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"a.h"</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">"  "</span>&lt;&lt;j&lt;&lt;<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="代码-a-h"><a href="#代码-a-h" class="headerlink" title="代码 a.h"></a>代码 a.h</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>;</div></pre></td></tr></table></figure>
+<p>出错信息：<br><img src="/images/C++/inline1.png" alt="Alt text"><br>这个warning说这个函数是inline的但是却没有定义。linker说main.cpp要用的这个f函数不存在。<br>我们可以cpp main.cpp 看一下。cpp 这个命令是编译预处理器。<br><img src="/images/C++/inline2.png" alt="Alt text"><br>编译器在编译的时候是按照，每一个编译单元去编译的，也就是每一个文件去编译。<br>通过cpp可以看到并没有定义函数体，所以是没有办法插进去的。所以只能放弃将f函数做内联。<br>而a.o中没有产生任何代码因为它是inline的，所以a.o中没有f函数的痕迹在的，当link的时候就出现问题了<br>main.cpp说我要个f函数，然后a.cpp里又没有f函数。所以我们应该把f函数的body放在a.h里面去。</p>
+<h2 id="代码-a-h-1"><a href="#代码-a-h-1" class="headerlink" title="代码 a.h"></a>代码 a.h</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>;</div><div class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span></span>&#123;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">"  "</span>&lt;&lt;j&lt;&lt;<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编译过了，运行也正常了<br>所以这是一种权衡（tradeoff）<br>有inline之后，对于之前的用法就会不一样，之前的用法是说你的每一个类应该会有对应的.cpp和对应的一个.h，.h里面放的是声明，而.cpp里放的是定义。<br>而inline函数这种函数的定义就不再是个定义，而是个声明，因此它不能放.cpp，只放在.h就够了。所以对应上面的代码来说，不需要有a.cpp有a.h就够了.h把所有inline的函数的body都放进去，就可以了。<br>对于inline函数而言，用inline函数就意味着，在这个函数被调用的时候，函数的代码会被插入到被调用的地方，这也意味着你的代码会变长程序会变大，因此它会牺牲代码的空间但是它会降低调用函数的overhead（额外的开销），这是典型的以空间换时间的策略。<br>这种方式比C的宏要好，C的宏不会进行类型检查，而inline会进行类型检查，所以inline比宏要好要安全。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>但是编译器也会做一个这样的事情，它如果发现你的inline函数过于巨大它可能会拒绝这个inline函数作为inline（inline函数内部做了很复杂的循环或者内部做了递归）<br>如果是成员函数<br>例如这个<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"a.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;<span class="built_in">cout</span>&lt;&lt;<span class="string">"f()"</span>&lt;&lt;<span class="built_in">endl</span>;&#125;;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>f函数体直接写在后面了，这样就不用在写.cpp了只要写一个.h就可以了<br>放在头文件里<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"a.h"</span></span></div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		<span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">inline</span> <span class="keyword">void</span> A::f()&#123;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="string">"f()"</span>&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>所以加了inline这个函数就不是定义而是声明，然后他不在class里面，而在class外面。<br>这样做的好处是，class会很清爽。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/24/python/SSHClient/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1448,127 +1608,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/文章测试/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jenius">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/jenius.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jeniusLi's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/19/文章测试/" itemprop="url">
-                  Markdown简介
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T14:14:37+08:00">
-                2017-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Markdown简介"><a href="#Markdown简介" class="headerlink" title="Markdown简介"></a>Markdown简介</h2><blockquote>
-<p>Markdown 是一种轻量级标记语言，它允许人们使用易读易写的纯文本格式编写文档，然后转换成格式丰富的HTML页面。    —— <a href="https://zh.wikipedia.org/wiki/Markdown" target="_blank" rel="external">维基百科</a></p>
-</blockquote>
-<p>正如您在阅读的这份文档，它使用简单的符号标识不同的标题，将某些文字标记为<strong>粗体</strong>或者<em>斜体</em>，创建一个<a href="http://www.example.com" target="_blank" rel="external">链接</a>或一个脚注[^demo]。下面列举了几个高级功能，更多语法请按<code>Cmd + /</code>查看帮助。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1618,7 +1657,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
