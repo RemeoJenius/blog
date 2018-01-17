@@ -250,6 +250,300 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/05/C++/Const/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jenius">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jenius.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jeniusLi's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/05/C++/Const/" itemprop="url">
+                  Const
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T12:50:51+08:00">
+                2017-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Const"><a href="#Const" class="headerlink" title="Const"></a>Const</h1><p>在C语言当中的，这个变量加上一个Const关键字之后，这个变量被初始化之后呢，就不能赋值。<br><img src="/images/C++/const1.png" alt="Alt text"><br>但是由于指针的存在，就出现一个问题，就是这个const是修饰谁的，比如:<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">10</span>;</div><div class="line">	<span class="keyword">const</span> <span class="keyword">int</span> *p = &amp;i;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	*p = <span class="number">2</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>会在第9行报错，error: read-only variable is not assignable<br>说这个变量是只读的，变量是不能被赋值的。<br>说明这个指针所指的这个对象是const的是不能被修改的，但是指针变量还是可以修改的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">10</span>;</div><div class="line">	<span class="keyword">const</span> <span class="keyword">int</span> *p = &amp;i;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	p++;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>没有报错。我们再看两个例子：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">10</span>;</div><div class="line">	<span class="keyword">int</span> *<span class="keyword">const</span> p = &amp;i;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	*p = <span class="number">2</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个没有报错，输出是：<br>10<br>2<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">10</span>;</div><div class="line">	<span class="keyword">int</span> *<span class="keyword">const</span> p = &amp;i;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	p++;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个报错了，error: cannot assign to variable ‘p’ with const-qualified type ‘int <em>const’<br>说不能对变量p赋值，因为这个指针p是被const修饰的，是类型’int </em>const’<br>这个指针p所指向的那个变量的值被修改了，但是p不能被修改，说明这个const修饰的是指针变量p，所以指针变量p不能被修改。<br>这就有一个问题了，怎么区分呢？其实有一个小技巧<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> *p = &amp;i; <span class="comment">// 看这个*号，const在星号左边说明是指针所指的那个变量是const的</span></div><div class="line"><span class="keyword">int</span> *<span class="keyword">const</span> p = &amp;i; <span class="comment">// const在星号右边说明这个指针p是const的</span></div></pre></td></tr></table></figure></p>
+<p>当然你可以都让它们是const的，让指针是const的同时，让指针所指的那个变量（内存空间）也都是const<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> i = <span class="number">10</span>;</div><div class="line">	<span class="keyword">const</span> <span class="keyword">int</span> *<span class="keyword">const</span> p = &amp;i;</div><div class="line">	p++;  <span class="comment">// 这里会有错，error: cannot assign to variable 'p' with const-qualified type 'int *const'</span></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	*p = <span class="number">2</span>; <span class="comment">// 这里会有错，error: read-only variable is not assignable</span></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样两个变量都是const的了<br>接下来再试一件事情<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">char</span> *s = <span class="string">"hello world"</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	s[<span class="number">0</span>] = <span class="string">'B'</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我 g++ 了一下，有一个warning:<br><img src="/images/C++/const2.png" alt="Alt text"><br>如果我先无视这个warning ./a.out 一下<br><img src="/images/C++/const3.png" alt="Alt text"><br>它输出了这个 hello world 之后程序异常终止了。<br>前面的那个warning 的意思是说：conversion from string literal to ‘char <em>‘ is deprecated<br>说这事已经过时了，这个意思是说你想将”hello world”这个字符串交给char </em>是不对的，做了修改之后程序就崩溃了。<br>实际上事情是这样的，s在栈里面，因为是本地变量（本地变量和函数的参数列表的变量都在栈里面）s是一个指针，它指向了一块内存，也就是说”hello world”是一块内存，内存又分为三种不同的地方，本地变量是放在，栈里面，new出来的东西是放在堆里面，然后全局变量在一个全局数据区里面。而全局变量里面的这种常量，是在代码段里的，因为”hello world”是一个常量，所以尽管我们没有在s前面加上const，实际上它是const的。它被放在了代码段里面，而代码段是不可写的。现在说有的操作系统，都是葱花1970年代出得那个Unix，现代操作系统的基本理论是从那里来的，所以不管外表是什么样，里面东西是一样的。你的程序运行起来之后，你的程序会从操作系统得到一块内存，这块内存当然是虚拟的，但是这块内存是独立的，每个进程，每个程序都有独立的内存。每块内存从0开始，在计算机的内部有一个计算机的硬件，MMU内存管理单元。由它来管这件事情，它会划分，从0开始到0x000xxx是代码段，如果你去试图去写这个代码段，就会有错：Bus error，实际上是MMU的地方出了错。<br>这是这件事情，假如：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="comment">// char *s = "hello world";</span></div><div class="line">	<span class="keyword">char</span> s[] = <span class="string">"hello world"</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	s[<span class="number">0</span>] = <span class="string">'B'</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>输出：<br>hello world<br>Bello world<br>没有warning、没有error<br>说明了 char[] s = “hello world”;<br>做了一件事，将代码段里的”hello world” 复制到栈里面了，存在本地变量里面。<br>可以写一个程序来验证。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">const</span> <span class="keyword">char</span> *s1 = <span class="string">"hello world"</span>;</div><div class="line">	<span class="keyword">char</span> s2[] = <span class="string">"hello world"</span>;</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"s1  =%p\n"</span>,s1);</div><div class="line">	<span class="built_in">printf</span>(<span class="string">"s2  =%p\n"</span>,s2);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"main=%p\n"</span>,main;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>之后我们编译运行一下输出：<br><img src="/images/C++/const4.png" alt="Alt text"><br>明显地址是不同的，char *s1 是比较靠前的地址，所以它在代码段里的<br>同时也看了main函数的地址，也是比较靠前的</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/01/algorithm/算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jenius">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jenius.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jeniusLi's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/05/01/algorithm/算法/" itemprop="url">
+                  二分法查询
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-01T15:50:51+08:00">
+                2017-05-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>最近在学python学完之后，想做点东西巩固一下python的语法，无意间在知乎上看到有人推荐算法图解这本书，讲了一些算法关键我是看到它的代码使用python写的，正好在巩固python的语法的同时将算法好好学一下。</p>
+<h2 id="二分法"><a href="#二分法" class="headerlink" title="二分法"></a>二分法</h2><p>下面的示例说明了二分查找的工作原理。我随便想一个1~100的数字。<br>你的目标是以最小的次数猜到这个数字。你每次猜测后，我会说小了、大了或对了。<br>假设你从1开始依次网上猜，猜测过程会是这样。<br>也就是我们所说的遍历，这是简单查找，更准确的说法是傻栈。每猜测都只能排除一个数字。如果我想的数字是99，你得猜99次才能猜到！</p>
+<h3 id="更佳的查找方法"><a href="#更佳的查找方法" class="headerlink" title="更佳的查找方法"></a>更佳的查找方法</h3><p>下面是一种更佳的猜法。从50开始。<br><img src="/images/algorithm/1.png" alt="Alt text"><br><img src="/images/algorithm/2.png" alt="Alt text"><br>因此,使用二分查找只需18步——少多了!一般而言,对于包含n个元素的列表,用二分查<br>找最多需要log2n步,而简单查找最多需要n步。<br><img src="/images/algorithm/3.png" alt="Alt text"><br>下面是我自己写的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">list = []</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">101</span>) : <span class="comment"># 先给这个列表赋值，1到100</span></div><div class="line">	list.append(n)</div><div class="line">left = <span class="number">0</span>  <span class="comment"># 第一个节点</span></div><div class="line">right = len(list)<span class="number">-1</span> <span class="comment"># 最后一个节点</span></div><div class="line">mid = int((left + right) / <span class="number">2</span>) <span class="comment"># 中间节点</span></div><div class="line">number = input(<span class="string">'plase input a number:\n'</span>) <span class="comment"># 这要注意一点python2 当中 input 输入的数字就是数字而python3 中输入数字会变成字符串</span></div><div class="line">number = int(number)</div><div class="line"><span class="keyword">while</span> list[mid] != number <span class="keyword">and</span> left &lt; right: <span class="comment"># 如果输入的数字不是中间节点，并且整个列表没有查询完进入循环</span></div><div class="line">	<span class="keyword">if</span> number&gt;list[mid]:    <span class="comment"># 如果数字大于中间节点，我们就把中间节点之前的所有都丢弃（不在前半部分）</span></div><div class="line">		left = mid +<span class="number">1</span>	    <span class="comment"># 让最左节点成为原来节点的后继节点</span></div><div class="line">	<span class="keyword">elif</span>  number&lt;list[mid]: <span class="comment"># 如果数字小于中间节点，我们就把中间节点之后的所有都丢弃（不在后半部分）</span></div><div class="line">		right = mid - <span class="number">1</span>		<span class="comment"># 让最右节点成为原来节点的前驱节点</span></div><div class="line">	mid = int((left + right) / <span class="number">2</span>) <span class="comment"># 每一次循环将mid重新赋值</span></div><div class="line">	print(<span class="string">'left= %d'</span>%left)</div><div class="line">	print(<span class="string">'right= %d'</span>%right)</div><div class="line"><span class="keyword">if</span> list[mid] == number:</div><div class="line">	print(<span class="string">'找到了 是第%d个元素。'</span>%(mid+<span class="number">1</span>))</div><div class="line"><span class="keyword">else</span>  :</div><div class="line">	print(<span class="string">'没找到'</span>)</div></pre></td></tr></table></figure></p>
+<p>下面是书上的的代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">list = []</div><div class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">101</span>) :</div><div class="line">	list.append(n)</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">binary_search</span><span class="params">(list,item)</span>:</span></div><div class="line">		low = <span class="number">0</span></div><div class="line">		high = len(list) - <span class="number">1</span></div><div class="line"></div><div class="line">		<span class="keyword">while</span> low &lt;= high:</div><div class="line">			mid =  (low + high) / <span class="number">2</span></div><div class="line">			guess = list[mid]</div><div class="line">			<span class="keyword">if</span> guess == item :</div><div class="line">				<span class="keyword">return</span> mid</div><div class="line">			<span class="keyword">if</span> guess &gt; item:</div><div class="line">				high = mid <span class="number">-1</span></div><div class="line">			<span class="keyword">else</span> :</div><div class="line">				low = mid + <span class="number">1</span></div><div class="line"><span class="keyword">if</span> binary_search(list,<span class="number">11</span>) != <span class="keyword">None</span> :</div><div class="line">	print(list[binary_search(list,<span class="number">11</span>)])</div></pre></td></tr></table></figure></p>
+<p><img src="/images/algorithm/4.png" alt="Alt text"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/25/C++/C++内联函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1362,252 +1656,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/20/构造之法第2章/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jenius">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/jenius.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jeniusLi's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/20/构造之法第2章/" itemprop="url">
-                  构造之法第2章
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-20T12:02:21+08:00">
-                2017-03-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="第2章概论"><a href="#第2章概论" class="headerlink" title="第2章概论"></a>第2章概论</h2><p>这一章是讲自身技术的，首先讲到了单元测试，书中说：最好是在设计的时候就写好评单元测试，这样单元测试就能体现API的语义。还提到效能分析工具，从时间复杂度和空间复杂度来判定效能。提到了个人的开发流程，从在校大学生和硕士毕业后工作三年后的个人工作流程进行对比发现后者花在编码阶段的时间大大减少和花在需求分析和软件测试阶段的时间增加了，并且这两者占到了整个开发流程的60%。最后是实践还有更加详细的讲到了回归测试，回归简单的来说就是已经做好的模块，并且单元测试做的也没有问题，结果引入新的模块后出现了老得的模块的问题叫做回归。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我作为在校大三的学生，也是会遇到过类似的问题。老师让做一个课程设计，用java写一个ATM，我当时觉得自己java学的不错（在我们班而言）就迫不及待的就直接编码了。当时什么架构也都不知道，也没有学软件工程，也不清楚个人的开发流程是什么，直接上来就编码。作了可能有一半了发现发现自己写的程序不符合面向对象的要求，也不符合MVC架构的准则。就重新写了一遍，写完之后发现，代码清清爽爽。这也算自己或者大多数，学编程初期的人都会遇到的一个问题吧。现在如果说做一个软件，我估计会强忍着，一上来就去写代码的冲动好好的把需求分析一下，数据库设计一下，功能梳理一下。说实话，第2章是关于测试的，本身来说对测试兴趣不是很高，所以，只是粗略的看了一下，但并不是测试不重要，只是个人感觉兴趣不大。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/19/读构建之法体会/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jenius">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/jenius.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="jeniusLi's blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/19/读构建之法体会/" itemprop="url">
-                  读构建之法体会
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T16:22:18+08:00">
-                2017-03-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="构建之法简介"><a href="#构建之法简介" class="headerlink" title="构建之法简介"></a>构建之法简介</h2><p>  软件工程牵涉的范围很广, 同时也是一般院校的同学反映比较空洞乏味的课程。 但是 软件工程的技术对于投身IT 产业的学生来说是非常重要的。作者邹欣有长达20年的一线软件开发经验，他利用业余时间在数所高校进行了长达6年的软件工程教学实践，总结出了在16周的时间内让 同学们通过 “做中学 (Learning By Doing)” 掌握实用的软件工程技术的教学计划，并得到高校师生的积极反馈。在此基础上，作者对软件工程的各个知识点和技能要求进行了系统性整理，形成教材。<br>  我将逐章的概述内容及我读完之后的感受</p>
-<h2 id="第1章概论"><a href="#第1章概论" class="headerlink" title="第1章概论"></a>第1章概论</h2><p>首先一上来提到了一个公式：软件=程序+软件工程<br>之后提出了三个问题或者叫做三个现象吧。之后讲了一个例子：从一个出30道加减法的题扩展到一个具有各种功能而且庞大的web应用。在这个例子中就会设计一些算法和数据结构，我想应该没有人会写这样的库给开发者用，所以需要自己去写一些算法和数据结构。后面引出了，程序的运行环境、源代码管理、软件的质量保证的过程是软件测试、绣球分析、软件维护、软件的生命周期和用户体验等概念。上述皆为软件开发活动行管的内容。<br>之后提到了软件团队赚钱的方式。再从广义上的软件工程也包括用户体验、用户界面等。从而推出一个公式：软件＝程序＋软件工程。又从中扩展到软件企业＝软件＋商业模式。<br>用折纸飞机的玩具阶段、用氢气球飞上天的业余爱好阶段、莱特兄弟制造飞机的探索阶段、现在的航空业的成熟的产业阶段类比软件开发的不同阶段：<br><img src="/images/soft classify.png" alt="Alt text"><br>软件工程是把系统的、有序的、可量化的放大应用到软件的开发、运营和维护上的过程。介绍了软件工程包含了哪些领域以及与软件工程相关的一些领域。简单介绍了一下软件开发流程和一些工具。<br>软件的特殊性共总结了五点内容：</p>
-<ul>
-<li><strong>复杂性</strong></li>
-<li><strong>不可见性</strong></li>
-<li><strong>易变性</strong></li>
-<li><strong>服从性</strong></li>
-<li><strong>非连续性</strong><br>之后对软件工程和计算机科学之间的关系、侧重点和领域等做出比较。<br>最后谈了谈bug的来历。</li>
-</ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在我看来就是造轮子和用轮子，作为java程序员想快速做出一个网站，不算是难事，即便用上SSM(Spring MVC,Spring,Mybatis)再加上基于RESTFul API的Swagger实现前后端分离的契约。还是加上缓存redis等技术对于数据结构和算法运用的不是很多基本上都是围绕着对数据库的增、删、改、查，这几个操作。肯定会有这个阶段，我们只需要会用轮子，还需要关注轮子是怎么造的嘛？在我看来数据结构和算法是一个编程员的基本功。所以基本功往往不是一时半会可以出效果的，如果不在乎这些基本功，也许一年两年在工作中不会体现，不过在这个领域呆的时间越久我确信，没有这些基本功作为保证，以后会遇见各种各样的瓶颈。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1657,7 +1705,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1666,7 +1714,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -1710,7 +1758,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
