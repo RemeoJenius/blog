@@ -1,4 +1,359 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="主要是学习后端技术，学过Java web、python web等后台技术"><title>多态 | jeniusLi's blog</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/6.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">多态</h1><a id="logo" href="/.">jeniusLi's blog</a><p class="description">生活、技术个人博客</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">多态</h1><div class="post-meta">May 9, 2017<span> | </span><span class="category"><a href="/categories/C/">C++</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><a data-disqus-identifier="2017/05/09/C++/多态/" href="/2017/05/09/C++/多态/#disqus_thread" class="disqus-comment-count"></a><div class="post-content"><h1 id="Upcatsting"><a href="#Upcatsting" class="headerlink" title="Upcatsting"></a>Upcatsting</h1><p>如果有两个类D类和B类，D类继承了B类，那么我们可以做出这样的一些类型转换：<br>D-&gt;B  ：一个D的对象可以交给B的变量；<br>D<em>-&gt;B</em>：一个D的指针可以交给B的指针；<br>D&amp;-&gt;B&amp;：一个D的引用可以交给B的引用；<br>可以做这个赋值，如果你有一个子类的对象，我们把它当作父类的对象来看了，那么这件事我们叫做Upcatst（向上造型）。<br><img src="/images/C++/多态1.png" alt="Alt text"><br>假设有一个场景，有长方形、椭圆、正方形、圆形，它们之间可能会有共同的成员变量和成员函数。所以它们会有联系。<br>我们有一个shape类，shape类有自己的center，这个center大家都有都要用到，它们都要继承shape类，所以shape类定义了center之后其他的类就不用定义了。不同的是render，不同的图形的render是不一样的。因此shape的render函数和其他图形的render函数得要有种联系。<br><a id="more"></a><br><img src="/images/C++/多态2.png" alt="Alt text"><br>先看一下代码：<br><img src="/images/C++/多态3.png" alt="Alt text"><br>在shape的render函数前面我们加了一个virtual（虚的），这个虚的意思是说将来shape类的所有的子类里面，如果它重新写了render（名称一样参数表也相同）那么这个render和子类里面的render就是有联系的。没有这个virtual这两个函数是没有关系的，有了这个virtual子类和父类同名的函数才有关系。<br>在ellipse里面它也有render，前面也加了virtual，不过这个virtual可加可不加，你不加virtual它也依然是virtual的。只要在它的继承树中间某一个祖先某个函数说是virtual了，以后子子孙孙这个函数都是virtual的，不管你说不说都是virtual的。但是把它放在这里是个好习惯，这样的话别人不用再去看shape了。看到ellipse就知道这个函数是virtual的了。<br><img src="/images/C++/多态4.png" alt="Alt text"><br>我们做这件事是为了这个例子，这个函数是说它要接收一个指针作为输入，然后让这个指针去做render，所以这个函数是通用函数。对任何shape的子类都是使用的，包括shape自己。这也意味这个render函数也适用于将来的新出现的shape的子类的对象。我现在写在这里，我可能还不知道shape有什么样子类，但是这个函数对将来可能出现的shape子类的对象也是适用的。你只要是shape的子类，你就一定会有render函数。<br><img src="/images/C++/多态5.png" alt="Alt text"><br>看一下func函数，我们可以做这样的一个事情，我们有一个ellipse的对象，ell.render()肯定是ellipse在render，然后我们做了一个Circle对象circ，circ.render()肯定是Circle在render，然后我们调用render函数把ellipse对象的地址给它。这个时候发生的是Upcatst向上造型。我们把一个ellipse的对象当作shape对象看待了，然后在那个render函数里面，把指针所指着的那个对象，做render的那个事情，那这个是谁render，是ellipse而不是shape因为这个函数是virtual的。virtual的函数就是在编译器说：对这个函数的调用如果说是通过指针或者引用的话，你就不能相信它一定是什么类型，得要到运行的时候才能确定。这个指针所指着那个对象是什么类型你再调那个类型的函数。这就是virtual的作用。告诉编译器说通过指针或者引用去调这个函数的时候，你不能直接就写进来调哪个函数，而要在运行的时候才能决定。所以你给他一个ellipse的对象它就做ellipse的render。给它一个Circle对象它就做Circle的render这件事就叫做Polymorphism,多态性。什么东西是多态的？p是多态的，因为p里面指着什么对象，通过p做的动作就是那个类型的对象做的，所以p指的是谁，它就指的那个形态，那叫做多态。<br>所以多态建立于两个事情的基础上：<br>第一个就是：Upcatst，向上造型，我们把一个子类当作父类的对象来看待。<br>第二个就是：Dynamic binding，动态绑定，绑定的意思指的是说，当我要去调一个函数的时候，我们究竟该调哪个函数，这叫做绑定。<br>    一种绑定叫做静态绑定，我调的那个函数是确定的，编译的时候就确定的，就知道的。<br>    第二种绑定叫做动态绑定，我要到运行的时候才知道，到底该调用哪个函数，根据我这个指针所指的那个对象来决定。<br>这件事可以这么理解：这个指针p有一个静态类型shape，但是同时它有一个动态类型，它当时指的那个对象的类型是什么。如果render函数是virtual的要看动态绑定，它的动态类型，如果不是virtual那么就是静态绑定，render是virtual的这取决于render而不是取决于p。<br>然后来说，c++的一切都是用c语言实现的，而且不会实现的太复杂。</p>
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Upcatsting如果有两个类D类和B类，D类继承了B类，那么我们可以做出这样的一些类型转换：D-&amp;gt;B  ：一个D的对象可以交给B的变量；D-&amp;gt;B：一个D的指针可以交给B的指针；D&amp;amp;-&amp;gt;B&amp;amp;：一个D的引用可以交给B的引用；可以做这个赋值，如果你有一个子类的对象，我们把它当作父类的对象来看了，那么这件事我们叫做Upcatst（向上造型）。假设有一个场景，有长方形、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多态">
+<meta property="og:url" content="http://yoursite.com/2017/05/09/C++/多态/index.html">
+<meta property="og:site_name" content="jeniusLi's blog">
+<meta property="og:description" content="Upcatsting如果有两个类D类和B类，D类继承了B类，那么我们可以做出这样的一些类型转换：D-&amp;gt;B  ：一个D的对象可以交给B的变量；D-&amp;gt;B：一个D的指针可以交给B的指针；D&amp;amp;-&amp;gt;B&amp;amp;：一个D的引用可以交给B的引用；可以做这个赋值，如果你有一个子类的对象，我们把它当作父类的对象来看了，那么这件事我们叫做Upcatst（向上造型）。假设有一个场景，有长方形、">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态1.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态2.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态3.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态4.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态5.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态4.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态7.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态8.png">
+<meta property="og:image" content="http://yoursite.com/images/C++/多态9.png">
+<meta property="og:updated_time" content="2017-05-11T10:46:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="多态">
+<meta name="twitter:description" content="Upcatsting如果有两个类D类和B类，D类继承了B类，那么我们可以做出这样的一些类型转换：D-&amp;gt;B  ：一个D的对象可以交给B的变量；D-&amp;gt;B：一个D的指针可以交给B的指针；D&amp;amp;-&amp;gt;B&amp;amp;：一个D的引用可以交给B的引用；可以做这个赋值，如果你有一个子类的对象，我们把它当作父类的对象来看了，那么这件事我们叫做Upcatst（向上造型）。假设有一个场景，有长方形、">
+<meta name="twitter:image" content="http://yoursite.com/images/C++/多态1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/09/C++/多态/"/>
+
+
+
+
+
+  <title> 多态 | jeniusLi's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">jeniusLi's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">生活、技术个人博客</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/09/C++/多态/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jenius">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/jenius.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="jeniusLi's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                多态
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T15:59:21+08:00">
+                2017-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Upcatsting"><a href="#Upcatsting" class="headerlink" title="Upcatsting"></a>Upcatsting</h1><p>如果有两个类D类和B类，D类继承了B类，那么我们可以做出这样的一些类型转换：<br>D-&gt;B  ：一个D的对象可以交给B的变量；<br>D<em>-&gt;B</em>：一个D的指针可以交给B的指针；<br>D&amp;-&gt;B&amp;：一个D的引用可以交给B的引用；<br>可以做这个赋值，如果你有一个子类的对象，我们把它当作父类的对象来看了，那么这件事我们叫做Upcatst（向上造型）。<br><img src="/images/C++/多态1.png" alt="Alt text"><br>假设有一个场景，有长方形、椭圆、正方形、圆形，它们之间可能会有共同的成员变量和成员函数。所以它们会有联系。<br>我们有一个shape类，shape类有自己的center，这个center大家都有都要用到，它们都要继承shape类，所以shape类定义了center之后其他的类就不用定义了。不同的是render，不同的图形的render是不一样的。因此shape的render函数和其他图形的render函数得要有种联系。<br><img src="/images/C++/多态2.png" alt="Alt text"><br>先看一下代码：<br><img src="/images/C++/多态3.png" alt="Alt text"><br>在shape的render函数前面我们加了一个virtual（虚的），这个虚的意思是说将来shape类的所有的子类里面，如果它重新写了render（名称一样参数表也相同）那么这个render和子类里面的render就是有联系的。没有这个virtual这两个函数是没有关系的，有了这个virtual子类和父类同名的函数才有关系。<br>在ellipse里面它也有render，前面也加了virtual，不过这个virtual可加可不加，你不加virtual它也依然是virtual的。只要在它的继承树中间某一个祖先某个函数说是virtual了，以后子子孙孙这个函数都是virtual的，不管你说不说都是virtual的。但是把它放在这里是个好习惯，这样的话别人不用再去看shape了。看到ellipse就知道这个函数是virtual的了。<br><img src="/images/C++/多态4.png" alt="Alt text"><br>我们做这件事是为了这个例子，这个函数是说它要接收一个指针作为输入，然后让这个指针去做render，所以这个函数是通用函数。对任何shape的子类都是使用的，包括shape自己。这也意味这个render函数也适用于将来的新出现的shape的子类的对象。我现在写在这里，我可能还不知道shape有什么样子类，但是这个函数对将来可能出现的shape子类的对象也是适用的。你只要是shape的子类，你就一定会有render函数。<br><img src="/images/C++/多态5.png" alt="Alt text"><br>看一下func函数，我们可以做这样的一个事情，我们有一个ellipse的对象，ell.render()肯定是ellipse在render，然后我们做了一个Circle对象circ，circ.render()肯定是Circle在render，然后我们调用render函数把ellipse对象的地址给它。这个时候发生的是Upcatst向上造型。我们把一个ellipse的对象当作shape对象看待了，然后在那个render函数里面，把指针所指着的那个对象，做render的那个事情，那这个是谁render，是ellipse而不是shape因为这个函数是virtual的。virtual的函数就是在编译器说：对这个函数的调用如果说是通过指针或者引用的话，你就不能相信它一定是什么类型，得要到运行的时候才能确定。这个指针所指着那个对象是什么类型你再调那个类型的函数。这就是virtual的作用。告诉编译器说通过指针或者引用去调这个函数的时候，你不能直接就写进来调哪个函数，而要在运行的时候才能决定。所以你给他一个ellipse的对象它就做ellipse的render。给它一个Circle对象它就做Circle的render这件事就叫做Polymorphism,多态性。什么东西是多态的？p是多态的，因为p里面指着什么对象，通过p做的动作就是那个类型的对象做的，所以p指的是谁，它就指的那个形态，那叫做多态。<br>所以多态建立于两个事情的基础上：<br>第一个就是：Upcatst，向上造型，我们把一个子类当作父类的对象来看待。<br>第二个就是：Dynamic binding，动态绑定，绑定的意思指的是说，当我要去调一个函数的时候，我们究竟该调哪个函数，这叫做绑定。<br>    一种绑定叫做静态绑定，我调的那个函数是确定的，编译的时候就确定的，就知道的。<br>    第二种绑定叫做动态绑定，我要到运行的时候才知道，到底该调用哪个函数，根据我这个指针所指的那个对象来决定。<br>这件事可以这么理解：这个指针p有一个静态类型shape，但是同时它有一个动态类型，它当时指的那个对象的类型是什么。如果render函数是virtual的要看动态绑定，它的动态类型，如果不是virtual那么就是静态绑定，render是virtual的这取决于render而不是取决于p。<br>然后来说，c++的一切都是用c语言实现的，而且不会实现的太复杂。</p>
 <h1 id="How-virtual-work-in-C"><a href="#How-virtual-work-in-C" class="headerlink" title="How virtual work in C++"></a>How virtual work in C++</h1><p><img src="/images/C++/多态4.png" alt="Alt text"><br>任何一个类如果有虚函数，只要有一个，这个类的对象就会比正常的大一点。我们先来验证这个事情。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		A():i(<span class="number">10</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="string">"A::f() "</span>&lt;&lt;i&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	A a;</div><div class="line">	a.f();</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(a)&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">int</span>* p = (<span class="keyword">int</span>*)&amp;a;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>输出结果:<br>A::f() 10<br>16<br>238158040<br>它的大小是16<br>如果我们在改一下<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		A():i(<span class="number">10</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="string">"A::f() "</span>&lt;&lt;i&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	A a;</div><div class="line">	a.f();</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(a)&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">int</span>* p = (<span class="keyword">int</span>*)&amp;a;</div><div class="line">	p += <span class="number">2</span>; <span class="comment">// p++ 的结果是1</span></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>结果：<br>A::f() 10<br>16<br>10<br>说明一个问题，在i前面有一个8个字节的东西，那个东西是vptr，所有有virtual的类的对象里面最头上就会自动加上隐藏的指针，那个指针叫做vptr。它是一个指针它指向一张表叫做vtable，vtable里面是它所有的virtual函数的地址。这张vtable，不是这个对象的，是这个类的。所以这个类所有对象的vptr是应该一样的。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		A():i(<span class="number">100</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="string">"A::f() "</span>&lt;&lt;i&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	A a,b;</div><div class="line">	a.f();</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;<span class="keyword">sizeof</span>(a)&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">int</span>* p = (<span class="keyword">int</span>*)&amp;a;</div><div class="line">	<span class="keyword">int</span>* q = (<span class="keyword">int</span>*)&amp;b;</div><div class="line">    <span class="keyword">int</span>* x = (<span class="keyword">int</span>*)*p; <span class="comment">// p是一个指针，*p就是这个指针所指的那个地方，*p就是指针的值，然后我在把它当作指针</span></div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span>&lt;&lt;*q&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    <span class="built_in">cout</span>&lt;&lt;x&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
@@ -7,29 +362,333 @@
 <p>结果：<br>B::f() 10<br>A::f() 10<br>我们再说Polymorphism的时候，你得是通过指针，或者是引用来调用这个virtual函数，他才会是动态绑定，通过.去调用它不会是动态绑定的。<br>我们可以换一下vptr<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">class</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		A():i(<span class="number">10</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="string">"A::f() "</span>&lt;&lt;i&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> i;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">class</span> B : <span class="keyword">public</span> A&#123;</div><div class="line">	<span class="keyword">public</span> :</div><div class="line">		B():j(<span class="number">20</span>)&#123;&#125;</div><div class="line">		<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span>&#123;</div><div class="line">			<span class="built_in">cout</span>&lt;&lt;<span class="string">"B::f() "</span>&lt;&lt;j&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">int</span> j;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> <span class="keyword">const</span> *argv[])</span></span></div><div class="line">&#123;</div><div class="line">	A a;</div><div class="line">	B b;</div><div class="line">	A *p = &amp;a;</div><div class="line">	<span class="keyword">int</span>*r = (<span class="keyword">int</span>*)&amp;a;</div><div class="line">	<span class="keyword">int</span>*t = (<span class="keyword">int</span>*)&amp;b;</div><div class="line">	*r = *t;</div><div class="line">	p-&gt;f();</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>结果：<br>B::f() 0<br>0是指j不存在，只是vptr被交换了，a的vptr找到了b的vtable，所以调用的是b的f，但是对象还是a的对象，a里面没有那个j所以默认初始化为0<br>所有的OOP语言默认都是virtual的，也就是说默认是做动态绑定的，只有C++默认是静态绑定，然后才能做成它是静态绑定的。而其他的OOP语言默认是动态绑定的，C++因为效率才会这么干的。因为静态绑定快，虽然我们动态绑定也挺快的，几个指针就过去了，但毕竟是几个指针才过去。静态绑定，是编译时刻就做在那里的，所以静态绑定会快很多。C++追求效率所以默认是静态绑定，那其他语言追求OOP的语义，OOP就应该是动态的。</p>
 <h2 id="Overriding"><a href="#Overriding" class="headerlink" title="Overriding"></a>Overriding</h2><p>在C++中子类和父类的一个函数是virtual的，并且函数名称相同，参数也相同，那么它们构成了一种关系叫做Override，Override这个中文可以叫做覆盖或者改写。<br>注意如果Override和overload同时存在，子类必须Override所有父类的虚函数，否则就会发生namehiding。</p>
-</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://blog.liyongjun.me/2017/05/09/C++/多态/" data-id="cj3law39t000k2zfytolk6zx8" class="article-share-link">Aktie</a><div class="tags"></div><div class="post-nav"><a href="/2017/05/15/algorithm/递归/" class="pre">递归</a><a href="/2017/05/09/C++/reference/" class="next">reference</a></div><div id="disqus_thread"><div class="btn_click_load"><button class="disqus_click_btn">阅读评论 「请确保 disqus.com 可以正常加载」</button></div><script>var disqus_shortname = 'jenius';
-var disqus_identifier = '2017/05/09/C++/多态/';
-var disqus_title = '多态';
-var disqus_url = 'http://blog.liyongjun.me/2017/05/09/C++/多态/';
-$('.btn_click_load').click(function() {
-  (function() {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-  })();
-  $('.btn_click_load').css('display','none');
-});
-$.ajax({
-  url: 'https://disqus.com/favicon.ico',
-  timeout: 3000,
-  type: 'GET',
-  success: (function() {
-    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    $('.btn_click_load').css('display','none');
-  })(),
-  error: function() {
-    $('.btn_click_load').css('display','block');
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/09/C++/reference/" rel="next" title="reference">
+                <i class="fa fa-chevron-left"></i> reference
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/15/algorithm/递归/" rel="prev" title="递归">
+                递归 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/jenius.jpeg"
+               alt="Jenius" />
+          <p class="site-author-name" itemprop="name">Jenius</p>
+           
+              <p class="site-description motion-element" itemprop="description">主要是学习后端技术，学过Java web、python web等后台技术</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Upcatsting"><span class="nav-number">1.</span> <span class="nav-text">Upcatsting</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-virtual-work-in-C"><span class="nav-number">2.</span> <span class="nav-text">How virtual work in C++</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shape-VS-Ellipse"><span class="nav-number">3.</span> <span class="nav-text">Shape VS Ellipse</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overriding"><span class="nav-number">3.1.</span> <span class="nav-text">Overriding</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jenius</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
   }
-});</script><script id="dsq-count-scr" src="//jenius.disqus.com/count.js" async></script></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://blog.liyongjun.me"/></form></div><div class="widget"><form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://blog.liyongjun.me"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C/">C++</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/算法/">算法</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/05/31/C++/静态对象/">静态对象</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/25/algorithm/散列表/">散列表</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/22/C++/拷贝构造函数/">拷贝构造函数</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/17/algorithm/快速排序/">快速排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/15/algorithm/递归/">递归</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/09/C++/多态/">多态</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/09/C++/reference/">reference</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/algorithm/选择排序/">选择排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/05/C++/Const/">Const</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/05/01/algorithm/算法/">二分法查询</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-comment-o"> Letzte Kommentare</i></div><script type="text/javascript" src="//jenius.disqus.com/recent_comments_widget.js?num_items=5&amp;hide_avatars=1&amp;avatar_size=32&amp;excerpt_length=20&amp;hide_mods=1"></script></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2017 <a href="/." rel="nofollow">jeniusLi's blog.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.0.47/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
